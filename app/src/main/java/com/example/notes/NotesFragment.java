@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class NotesFragment extends Fragment {
+    private final NoteEntity[] notes = {
+            new NoteEntity("Note1", "first note", "20.05.2021", "my first note"),
+            new NoteEntity("Note2", "second note", "21.05.2021", "my second note"),
+            new NoteEntity("Note3", "third note", "22.05.2021", "my third note"),
+            new NoteEntity("Note4", "fourth note", "23.05.2021", "my fourth note"),
+            new NoteEntity("Note5", "fifth note", "24.05.2021", "my fifth note")};
 
     NotesFragment() {}
 
@@ -35,11 +42,10 @@ public class NotesFragment extends Fragment {
 
     private void initNotesList(View view) {
         LinearLayout layoutNotesList = (LinearLayout)view;
-        String[] notes = getResources().getStringArray(R.array.notes_titles);
 
-        for (String note : notes) {
+        for (NoteEntity note : notes) {
             TextView tv = new TextView(getContext());
-            tv.setText(note);
+            tv.setText(Html.fromHtml("<b>"+note.getTitle()+"</b>\t("+note.getDate()+")"));
             tv.setTextSize(getResources().getDimension(R.dimen.note_list_text_size));
             tv.setGravity(Gravity.CENTER);
             layoutNotesList.addView(tv);

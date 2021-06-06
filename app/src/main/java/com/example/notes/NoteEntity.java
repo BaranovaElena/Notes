@@ -55,4 +55,12 @@ public class NoteEntity implements Parcelable {
     public String getDate() {
         return date;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getText() {
+        return text;
+    }
 }

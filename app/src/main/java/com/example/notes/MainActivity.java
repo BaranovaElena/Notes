@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity implements NotesFragment.Controller{
+    public final String NOTES_FRAGMENT_TAG = "NOTES_FRAGMENT_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -13,7 +14,7 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.layout_notes_list, new NotesFragment())
+                .add(R.id.layout_notes_list, new NotesFragment(), NOTES_FRAGMENT_TAG)
                 .commit();
     }
 

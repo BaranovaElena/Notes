@@ -3,13 +3,27 @@ package com.example.notes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class NoteEntity implements Parcelable {
+    private static final AtomicInteger count = new AtomicInteger(0);
+
+    private int id;
     private final String title;
     private final String description;
     private final String date;
     private final String text;
 
+    NoteEntity(int id, String title, String description, String date, String text) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.text = text;
+    }
+
     NoteEntity(String title, String description, String date, String text) {
+        this.id = count.incrementAndGet();
         this.title = title;
         this.description = description;
         this.date = date;
@@ -17,6 +31,7 @@ public class NoteEntity implements Parcelable {
     }
 
     protected NoteEntity(Parcel in) {
+        id = in.readInt();
         title = in.readString();
         description = in.readString();
         date = in.readString();
@@ -42,6 +57,7 @@ public class NoteEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(date);
@@ -62,5 +78,9 @@ public class NoteEntity implements Parcelable {
 
     public String getText() {
         return text;
+    }
+
+    public int getIdentifier() {
+        return id;
     }
 }

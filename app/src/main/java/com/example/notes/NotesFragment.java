@@ -15,13 +15,10 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.button.MaterialButton;
 
-public class NotesFragment extends Fragment {
-    private final NoteEntity[] notes = {
-            new NoteEntity("Note1", "first note", "20.05.2021", "my first note"),
-            new NoteEntity("Note2", "second note", "21.05.2021", "my second note"),
-            new NoteEntity("Note3", "third note", "22.05.2021", "my third note"),
-            new NoteEntity("Note4", "fourth note", "23.05.2021", "my fourth note"),
-            new NoteEntity("Note5", "fifth note", "24.05.2021", "my fifth note")};
+import java.util.ArrayList;
+
+public class NotesFragment extends Fragment implements OneNoteFragment.Controller {
+    private ArrayList<NoteEntity> notesArray;
 
     private LinearLayout layoutNotesList;
 
@@ -41,20 +38,39 @@ public class NotesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         layoutNotesList = view.findViewById(R.id.fragment_notes_layout);
 
+        notesArray = new ArrayList<>();
         initNotesList();
     }
 
     private void initNotesList() {
-        for (NoteEntity note : notes) {
-            MaterialButton button = new MaterialButton(requireContext());
+        notesArray.add(new NoteEntity(
+                "Note1", "first note", "20.05.2021", "my first note"));
+        notesArray.add(new NoteEntity(
+                "Note2", "second note", "21.05.2021", "my second note"));
+        notesArray.add(new NoteEntity(
+                "Note3", "third note", "22.05.2021", "my third note"));
+        notesArray.add(new NoteEntity(
+                "Note4", "fourth note", "23.05.2021", "my fourth note"));
+        notesArray.add(new NoteEntity(
+                "Note5", "fifth note", "24.05.2021", "my fifth note"));
 
-            setButtonProperties(button);
-            button.setText(Html.fromHtml("<b>"+note.getTitle()+"</b>\t("+note.getDate()+")"));
-            button.setOnClickListener(v ->
+        //кнопки для всего списка заметок
+        for (NoteEntity note : notesArray) {
+            addNewButton(note);
+        }
+    }
+
+    private void addNewButton(NoteEntity note) {
+        MaterialButton button = new MaterialButton(requireContext());
+
+        setButtonProperties(button);
+        //название заметки жирным шрифтом
+        button.setText(Html.fromHtml("<b>" + note.getTitle() + "</b>\t(" + note.getDate() + ")"));
+        button.setOnClickListener(v ->
+                //по нажатию открываем фрагмент для редактирования
                 ((Controller) requireActivity()).openNoteScreen(note));
 
-            layoutNotesList.addView(button);
-        }
+        layoutNotesList.addView(button);
     }
 
     private void setButtonProperties(MaterialButton button) {
@@ -64,6 +80,26 @@ public class NotesFragment extends Fragment {
         button.setTextSize(getResources().getDimension(R.dimen.note_list_text_size));
         button.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_text));
         button.setGravity(Gravity.CENTER);
+    }
+
+    @Override
+    public void saveResult(NoteEntity newNote) {
+        boolean isUpdated = false;
+        for (int i = 0; i < notesArray.size(); i++) {
+            //если старая заметка редактировалась, обновляем и переносим в конец списка
+            if (notesArray.get(i).getIdentifier() == newNote.getIdentifier()) {
+                layoutNotesList.removeViewAt(i+1); //+1 тк 1-й элемент - кнопка create_new_note
+                addNewButton(newNote);
+                notesArray.remove(i);
+                notesArray.add(newNote);
+                isUpdated = true;
+            }
+        }
+        //если новая заметка, добавляем
+        if (!isUpdated) {
+            addNewButton(newNote);
+            notesArray.add(newNote);
+        }
     }
 
     interface Controller {

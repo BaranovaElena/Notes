@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Notes</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="title_hint">title</string>
     <string name="creation_date_hint">creation date</string>
     <string name="description_hint">description</string>
     <string name="write_your_note_here_hint">write your note here</string>
+
     <string name="create_new_note">Создать новую заметку</string>
     <string name="save_note">Сохранить заметку</string>
+
+    <string name="date_format">"dd.MM.yyyy"</string>
 </resources>

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background">@color/black</color>
+    <color name="button_stroke">#A1A1A1</color>
+    <color name="button_text">@color/white</color>
 </resources>

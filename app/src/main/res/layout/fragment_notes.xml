@@ -3,9 +3,12 @@
     android:id="@+id/fragment_notes_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    style="@style/linear_container"
     tools:context=".NotesFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_create_new_note"
+        style="@style/style_button_create_note">
+    </com.google.android.material.button.MaterialButton>
 
 </LinearLayout>

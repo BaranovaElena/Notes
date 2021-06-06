@@ -2,6 +2,7 @@ package com.example.notes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity implements NotesFragment.Controller{
@@ -20,9 +21,10 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
 
     @Override
     public void openNoteScreen(NoteEntity note) {
+        boolean isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.layout_notes_list, OneNoteFragment.newInstance(note))
+                .add(isLandscape ? R.id.layout_one_note : R.id.layout_notes_list, OneNoteFragment.newInstance(note))
                 .addToBackStack(null)
                 .commit();
     }

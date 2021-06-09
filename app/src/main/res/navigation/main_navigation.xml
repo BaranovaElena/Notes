@@ -6,24 +6,26 @@
     app:startDestination="@id/navigation_list">
 
     <fragment
-        android:id="@+id/navigation_favorites"
-        android:name="com.example.notes.FavoritesFragment"
-        android:label="@string/bottom_nav_favorites"
-        tools:layout="@layout/fragment_favorites" />
-
-    <fragment
         android:id="@+id/navigation_list"
         android:name="com.example.notes.NotesFragment"
         android:label="@string/bottom_nav_list"
         tools:layout="@layout/fragment_notes" />
+
     <fragment
         android:id="@+id/navigation_add"
         android:name="com.example.notes.AddFragment"
         android:label="@string/bottom_nav_add"
         tools:layout="@layout/fragment_add" />
+
     <fragment
         android:id="@+id/navigation_tasks"
         android:name="com.example.notes.TasksFragment"
         android:label="@string/bottom_nav_tasks"
         tools:layout="@layout/fragment_tasks" />
+
+    <fragment
+        android:id="@+id/navigation_favorites"
+        android:name="com.example.notes.FavoritesFragment"
+        android:label="@string/bottom_nav_favorites"
+        tools:layout="@layout/fragment_favorites" />
 </navigation>

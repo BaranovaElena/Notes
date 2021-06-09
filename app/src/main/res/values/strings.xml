@@ -14,4 +14,5 @@
     <string name="bottom_nav_favorites">Избранные</string>
     <string name="bottom_nav_tasks">Задачи</string>
     <string name="bottom_nav_add">Создать</string>
+    <string name="theme">Тема</string>
 </resources>

@@ -3,4 +3,5 @@
     <color name="background">@color/black</color>
     <color name="button_stroke">#A1A1A1</color>
     <color name="button_text">@color/white</color>
+    <color name="nav_icon_color">#F57F17</color>
 </resources>

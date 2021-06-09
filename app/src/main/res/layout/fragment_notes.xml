@@ -6,9 +6,4 @@
     style="@style/linear_container"
     tools:context=".NotesFragment">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_create_new_note"
-        style="@style/style_button_create_note">
-    </com.google.android.material.button.MaterialButton>
-
 </LinearLayout>

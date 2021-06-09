@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -26,35 +27,37 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.nav_view);
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.navigation_list:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment_activity_main, new NotesFragment(), NOTES_FRAGMENT_TAG)
-                            .commit();
-                    return true;
-                case R.id.navigation_add:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment_activity_main, new AddFragment())
-                            .commit();
-                    return true;
-                case R.id.navigation_tasks:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment_activity_main, new TasksFragment())
-                            .commit();
-                    return true;
-                case R.id.navigation_favorites:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment_activity_main, new FavoritesFragment())
-                            .commit();
-                    return true;
-            }
-            return false;
-        });
+        bottomNavigationView.setOnNavigationItemSelectedListener(this::setBottomNavListener);
+    }
+
+    private boolean setBottomNavListener(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.navigation_list:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment_activity_main, new NotesFragment(), NOTES_FRAGMENT_TAG)
+                        .commit();
+                return true;
+            case R.id.navigation_add:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment_activity_main, new AddFragment())
+                        .commit();
+                return true;
+            case R.id.navigation_tasks:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment_activity_main, new TasksFragment())
+                        .commit();
+                return true;
+            case R.id.navigation_favorites:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment_activity_main, new FavoritesFragment())
+                        .commit();
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -88,22 +91,30 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
                 View vItem = findViewById(R.id.action_menu_category);
                 PopupMenu popupMenu = new PopupMenu(this, vItem);
                 popupMenu.inflate(R.menu.category_menu);
-                popupMenu.setOnMenuItemClickListener(itemCategory -> {
-                    switch (itemCategory.getItemId()) {
-                        case R.id.category_menu_no_category:
-                            break;
-                        case R.id.category_menu_work:
-                            break;
-                        case R.id.category_menu_study:
-                            break;
-                        case R.id.category_menu_home:
-                            break;
-                        case R.id.category_menu_add_category:
-                            break;
-                    }
-                    return false;
-                });
+                popupMenu.setOnMenuItemClickListener(this::setCategoryMenuListener);
                 popupMenu.show();
+                break;
+        }
+        return true;
+    }
+
+    private boolean setCategoryMenuListener(MenuItem itemCategory) {
+        switch (itemCategory.getItemId()) {
+            case R.id.category_menu_no_category:
+                Toast.makeText(this,getString(R.string.no_category),Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.category_menu_work:
+                Toast.makeText(this,getString(R.string.work),Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.category_menu_study:
+                Toast.makeText(this,getString(R.string.study),Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.category_menu_home:
+                Toast.makeText(this,getString(R.string.home),Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.category_menu_add_category:
+                Toast.makeText(this,getString(R.string.add_category),Toast.LENGTH_SHORT).show();
+                break;
         }
         return true;
     }

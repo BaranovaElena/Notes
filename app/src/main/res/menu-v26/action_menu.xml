@@ -5,14 +5,13 @@
     <item
         android:id="@+id/action_menu_category"
         android:icon="@drawable/ic_category"
-        android:iconTint="@color/white"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/theme" />
 
     <item
         android:id="@+id/action_menu_theme"
         android:icon="@drawable/ic_theme"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/theme" />
 
 </menu>

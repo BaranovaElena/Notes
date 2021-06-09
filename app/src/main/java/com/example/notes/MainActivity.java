@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -81,6 +83,27 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
                 } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
+                break;
+            case R.id.action_menu_category:
+                View vItem = findViewById(R.id.action_menu_category);
+                PopupMenu popupMenu = new PopupMenu(this, vItem);
+                popupMenu.inflate(R.menu.category_menu);
+                popupMenu.setOnMenuItemClickListener(itemCategory -> {
+                    switch (itemCategory.getItemId()) {
+                        case R.id.category_menu_no_category:
+                            break;
+                        case R.id.category_menu_work:
+                            break;
+                        case R.id.category_menu_study:
+                            break;
+                        case R.id.category_menu_home:
+                            break;
+                        case R.id.category_menu_add_category:
+                            break;
+                    }
+                    return false;
+                });
+                popupMenu.show();
         }
         return true;
     }

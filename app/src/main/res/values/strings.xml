@@ -15,4 +15,9 @@
     <string name="bottom_nav_tasks">Задачи</string>
     <string name="bottom_nav_add">Создать</string>
     <string name="theme">Тема</string>
+    <string name="work">Работа</string>
+    <string name="study">Учеба</string>
+    <string name="home">Дом</string>
+    <string name="no_category">Без категории</string>
+    <string name="add_category">Добавить категорию</string>
 </resources>

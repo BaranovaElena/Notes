@@ -6,13 +6,13 @@
         android:id="@+id/action_menu_category"
         android:icon="@drawable/ic_category"
         android:iconTint="@color/white"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:title="@string/theme" />
 
     <item
         android:id="@+id/action_menu_theme"
         android:icon="@drawable/ic_theme"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:title="@string/theme" />
 
 </menu>

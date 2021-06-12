@@ -1,17 +1,14 @@
 package com.example.notes;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -22,7 +19,7 @@ import java.util.Calendar;
 public class OneNoteFragment extends Fragment {
     public static final String GET_NOTE_EXTRA_KEY = "EXTRA_KEY";
 
-    private NoteEntity noteEntity;
+    private NoteEntity noteEntity = null;
 
     private TextInputEditText titleEditText;
     private TextView creationDateTextView;
@@ -65,18 +62,6 @@ public class OneNoteFragment extends Fragment {
 
         buttonSave = view.findViewById(R.id.button_save);
         buttonSave.setOnClickListener(v -> saveAndExit());
-
-        // в ландшафте фрагмент должен растягиваться до низа,
-        // в портретной - с учетом нижней панели навигации
-        if (!(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)) {
-            LinearLayout fragment_container = (LinearLayout) view.findViewById(R.id.fragment_one_note_container);
-            TypedValue tv = new TypedValue();
-            if (requireActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-                fragment_container.setPadding(0, 0, 0,
-                        TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics()));
-            }
-
-        }
         return view;
     }
 

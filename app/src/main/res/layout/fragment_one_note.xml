@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/fragment_one_note_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/linear_container"
-    android:paddingBottom="?attr/actionBarSize"
     tools:context=".OneNoteFragment">
 
     <com.google.android.material.textfield.TextInputEditText

@@ -32,4 +32,27 @@
         <item name="android:hint">@string/write_your_note_here_hint</item>
     </style>
 
+    <style name="bottom_nav_view_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?android:attr/windowBackground</item>
+        <item name="itemIconTint">@color/nav_icon_color</item>
+        <item name="itemTextColor">@color/nav_icon_color</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="menu">@menu/bottom_nav_menu</item>
+    </style>
+    <style name="fragment_container_view">
+        <item name="android:name">androidx.navigation.fragment.NavHostFragment</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="defaultNavHost">true</item>
+        <item name="layout_constraintBottom_toTopOf">@id/nav_view</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="navGraph">@navigation/main_navigation</item>
+    </style>
+
 </resources>

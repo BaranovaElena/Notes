@@ -3,7 +3,9 @@ package com.example.notes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity implements NotesFragment.Controller, OneNoteFragment.Controller{
     public final String NOTES_FRAGMENT_TAG = "NOTES_FRAGMENT_TAG";
     private BottomNavigationView bottomNavigationView;
+    private boolean isLandscape;
 
     static {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this::setBottomNavListener);
@@ -69,13 +74,13 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
 
     @Override
     public void openNoteScreen(NoteEntity note) {
-        //boolean isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-        getSupportFragmentManager()
-                .beginTransaction()
-                //.add(isLandscape ? R.id.layout_one_note : R.id.layout_notes_list, OneNoteFragment.newInstance(note))
-                .add(R.id.nav_host_fragment_activity_main, OneNoteFragment.newInstance(note))
-                .addToBackStack(null)
-                .commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(isLandscape ? R.id.layout_one_note : R.id.nav_host_fragment_activity_main,
+                OneNoteFragment.newInstance(note));
+        if (!isLandscape) {
+            transaction.addToBackStack(null);
+        }
+        transaction.commit();
     }
 
     @Override

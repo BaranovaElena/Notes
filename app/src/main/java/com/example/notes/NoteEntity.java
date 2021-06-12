@@ -3,18 +3,20 @@ package com.example.notes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class NoteEntity implements Parcelable {
     private static final AtomicInteger count = new AtomicInteger(0);
 
-    private int id;
+    private final int id;
     private final String title;
     private final String description;
-    private final String date;
+    private final long date;
     private final String text;
 
-    NoteEntity(int id, String title, String description, String date, String text) {
+    NoteEntity(int id, String title, String description, long date, String text) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -22,7 +24,7 @@ public class NoteEntity implements Parcelable {
         this.text = text;
     }
 
-    NoteEntity(String title, String description, String date, String text) {
+    NoteEntity(String title, String description, long date, String text) {
         this.id = count.incrementAndGet();
         this.title = title;
         this.description = description;
@@ -34,7 +36,7 @@ public class NoteEntity implements Parcelable {
         id = in.readInt();
         title = in.readString();
         description = in.readString();
-        date = in.readString();
+        date = in.readLong();
         text = in.readString();
     }
 
@@ -60,7 +62,7 @@ public class NoteEntity implements Parcelable {
         dest.writeInt(id);
         dest.writeString(title);
         dest.writeString(description);
-        dest.writeString(date);
+        dest.writeLong(date);
         dest.writeString(text);
     }
 
@@ -68,8 +70,13 @@ public class NoteEntity implements Parcelable {
         return title;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
+    }
+
+    public String getStringDate() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        return formatter.format(new Date(date));
     }
 
     public String getDescription() {

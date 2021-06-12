@@ -16,8 +16,9 @@ import android.widget.LinearLayout;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class NotesFragment extends Fragment implements OneNoteFragment.Controller {
+public class NotesFragment extends Fragment {
     private ArrayList<NoteEntity> notesArray;
 
     private LinearLayout layoutNotesList;
@@ -43,16 +44,17 @@ public class NotesFragment extends Fragment implements OneNoteFragment.Controlle
     }
 
     private void initNotesList() {
+        long dateInMills = Calendar.getInstance().getTimeInMillis();
         notesArray.add(new NoteEntity(
-                "Note1", "first note", "20.05.2021", "my first note"));
+                "Note1", "first note", dateInMills, "my first note"));
         notesArray.add(new NoteEntity(
-                "Note2", "second note", "21.05.2021", "my second note"));
+                "Note2", "second note", dateInMills, "my second note"));
         notesArray.add(new NoteEntity(
-                "Note3", "third note", "22.05.2021", "my third note"));
+                "Note3", "third note", dateInMills, "my third note"));
         notesArray.add(new NoteEntity(
-                "Note4", "fourth note", "23.05.2021", "my fourth note"));
+                "Note4", "fourth note", dateInMills, "my fourth note"));
         notesArray.add(new NoteEntity(
-                "Note5", "fifth note", "24.05.2021", "my fifth note"));
+                "Note5", "fifth note", dateInMills, "my fifth note"));
 
         //кнопки для всего списка заметок
         for (NoteEntity note : notesArray) {
@@ -65,7 +67,7 @@ public class NotesFragment extends Fragment implements OneNoteFragment.Controlle
 
         setButtonProperties(button);
         //название заметки жирным шрифтом
-        button.setText(Html.fromHtml("<b>" + note.getTitle() + "</b>\t(" + note.getDate() + ")"));
+        button.setText(Html.fromHtml("<b>" + note.getTitle() + "</b>\t(" + note.getStringDate() + ")"));
         button.setOnClickListener(v ->
                 //по нажатию открываем фрагмент для редактирования
                 ((Controller) requireActivity()).openNoteScreen(note));
@@ -82,8 +84,7 @@ public class NotesFragment extends Fragment implements OneNoteFragment.Controlle
         button.setGravity(Gravity.CENTER);
     }
 
-    @Override
-    public void saveResult(NoteEntity newNote) {
+    public void saveEditResult(NoteEntity newNote) {
         boolean isUpdated = false;
         for (int i = 0; i < notesArray.size(); i++) {
             //если старая заметка редактировалась, обновляем и переносим в конец списка

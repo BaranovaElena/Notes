@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity implements NotesFragment.Controller{
+public class MainActivity extends AppCompatActivity implements NotesFragment.Controller, OneNoteFragment.Controller{
     public final String NOTES_FRAGMENT_TAG = "NOTES_FRAGMENT_TAG";
 
     @Override
@@ -27,5 +27,14 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
                 .add(isLandscape ? R.id.layout_one_note : R.id.layout_notes_list, OneNoteFragment.newInstance(note))
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void saveResult(NoteEntity newNote) {
+        NotesFragment notesFragment = (NotesFragment) getSupportFragmentManager()
+                .findFragmentByTag(NOTES_FRAGMENT_TAG);
+        if (notesFragment != null) {
+            notesFragment.saveEditResult(newNote);
+        }
     }
 }

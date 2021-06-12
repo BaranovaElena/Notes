@@ -14,12 +14,10 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 public class OneNoteFragment extends Fragment {
-    public static final String EXTRA_KEY = "EXTRA_KEY";
-    private static final String TAG = "@@@ OneNoteFragment";
+    public static final String GET_NOTE_EXTRA_KEY = "EXTRA_KEY";
 
     private NoteEntity noteEntity = null;
 
@@ -34,7 +32,7 @@ public class OneNoteFragment extends Fragment {
     public static OneNoteFragment newInstance(NoteEntity note) {
         OneNoteFragment fragment = new OneNoteFragment();
         Bundle args = new Bundle();
-        args.putParcelable(EXTRA_KEY, note);
+        args.putParcelable(GET_NOTE_EXTRA_KEY, note);
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,7 +41,7 @@ public class OneNoteFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getArguments() != null) {
-            noteEntity = getArguments().getParcelable(EXTRA_KEY);
+            noteEntity = getArguments().getParcelable(GET_NOTE_EXTRA_KEY);
         }
     }
 
@@ -65,22 +63,19 @@ public class OneNoteFragment extends Fragment {
     //обработчик кнопки сохранить
     private void saveAndExit() {
         //так как обновляем данные во фрагменте-списке, получаем к нему доступ по тегу
-        MainActivity mainActivity = (MainActivity) getActivity();
-        Controller controller = (Controller) requireActivity()
-                .getSupportFragmentManager().findFragmentByTag(mainActivity.NOTES_FRAGMENT_TAG);
+        Controller controller = (Controller) getActivity();
 
         //обновляем дату отредактированной заметки
-        SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.date_format));
-        String currentDate = sdf.format(new Date());
+        long currentDate = Calendar.getInstance().getTimeInMillis();
 
         if (controller != null) {
             //передаем заметку во фрагмент-список
             NoteEntity newNote = new NoteEntity(
                     noteEntity.getIdentifier(),
-                    title_edit_text.getText().toString(),
-                    description_edit_text.getText().toString(),
+                    (title_edit_text.getText() == null ? "" : title_edit_text.getText().toString()),
+                    (description_edit_text.getText() == null ? "" : description_edit_text.getText().toString()),
                     currentDate,
-                    note_edit_text.getText().toString());
+                    (note_edit_text.getText() == null ? "" : note_edit_text.getText().toString()));
             controller.saveResult(newNote);
         }
         //закрываем текущий фрагмент с редактированием
@@ -95,7 +90,7 @@ public class OneNoteFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         title_edit_text.setText(noteEntity.getTitle());
-        creation_date_text_view.setText(noteEntity.getDate());
+        creation_date_text_view.setText(String.valueOf(noteEntity.getDate()));
         description_edit_text.setText(noteEntity.getDescription());
         note_edit_text.setText(noteEntity.getText());
     }

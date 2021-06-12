@@ -28,6 +28,13 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
 
         bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this::setBottomNavListener);
+
+        //установка начального экрана - фрагмента по списком - с указанием тэга
+        //иначе при передачи заметки от экрана редактирования не найти фрагмент
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment_activity_main, new NotesFragment(), NOTES_FRAGMENT_TAG)
+                .commit();
     }
 
     private boolean setBottomNavListener(MenuItem item) {

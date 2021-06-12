@@ -82,11 +82,6 @@ public class OneNoteFragment extends Fragment {
                     (noteEditText.getText() == null ? "" : noteEditText.getText().toString()));
             controller.saveResult(newNote);
         }
-        //закрываем текущий фрагмент с редактированием
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .remove(this)
-                .commit();
     }
 
     @Override

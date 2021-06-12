@@ -6,25 +6,24 @@
     <string name="description_hint">description</string>
     <string name="write_your_note_here_hint">write your note here</string>
 
-    <string name="create_new_note">Создать новую заметку</string>
-    <string name="save_note">Сохранить заметку</string>
+    <string name="create_new_note">Create new note</string>
+    <string name="save_note">Save note</string>
 
-    <string name="date_format">"dd.MM.yyyy"</string>
+    <string name="date_format" translatable="false">"dd.MM.yyyy"</string>
 
-    <string name="bottom_nav_list">Список</string>
-    <string name="bottom_nav_favorites">Избранные</string>
-    <string name="bottom_nav_tasks">Задачи</string>
-    <string name="bottom_nav_add">Создать</string>
+    <string name="bottom_nav_list">List</string>
+    <string name="bottom_nav_favorites">Favorites</string>
+    <string name="bottom_nav_tasks">Tasks</string>
+    <string name="bottom_nav_add">Add</string>
 
-    <string name="theme">Тема</string>
+    <string name="theme">Theme</string>
 
-    <string name="work">Работа</string>
-    <string name="study">Учеба</string>
-    <string name="home">Дом</string>
-    <string name="no_category">Без категории</string>
-    <string name="add_category">Добавить категорию</string>
+    <string name="work">Work</string>
+    <string name="study">Study</string>
+    <string name="home">Home</string>
+    <string name="no_category">No category</string>
+    <string name="add_category">Add category</string>
 
-    <string name="add_fragment">ADD FRAGMENT</string>
-    <string name="favorites_fragment">FAVORITES FRAGMENT</string>
-    <string name="tasks_fragment">TASKS FRAGMENT</string>
+    <string name="favorites_fragment" translatable="false">FAVORITES FRAGMENT</string>
+    <string name="tasks_fragment" translatable="false">TASKS FRAGMENT</string>
 </resources>

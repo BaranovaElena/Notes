@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_add"
-        android:name="com.example.notes.AddFragment"
+        android:name="com.example.notes.OneNoteFragment"
         android:label="@string/bottom_nav_add"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/fragment_one_note" />
 
     <fragment
         android:id="@+id/navigation_tasks"

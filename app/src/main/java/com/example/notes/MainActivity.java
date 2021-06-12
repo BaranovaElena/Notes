@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
             case R.id.navigation_add:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment_activity_main, new AddFragment())
+                        .replace(R.id.nav_host_fragment_activity_main, new OneNoteFragment())
                         .commit();
                 return true;
             case R.id.navigation_tasks:
@@ -131,7 +131,10 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
         NotesFragment notesFragment = (NotesFragment) getSupportFragmentManager()
                 .findFragmentByTag(NOTES_FRAGMENT_TAG);
         if (notesFragment != null) {
+            getSupportFragmentManager().popBackStack();
             notesFragment.saveEditResult(newNote);
+        } else {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_list);
         }
     }
 }

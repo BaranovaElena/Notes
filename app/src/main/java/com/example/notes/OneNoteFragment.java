@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,9 @@ public class OneNoteFragment extends Fragment {
     private TextInputEditText noteEditText;
     private MaterialButton buttonSave;
 
-    public OneNoteFragment() {}
+    public OneNoteFragment() {
+        noteEntity = new NoteEntity();
+    }
 
     public static OneNoteFragment newInstance(NoteEntity note) {
         OneNoteFragment fragment = new OneNoteFragment();
@@ -89,7 +90,7 @@ public class OneNoteFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         titleEditText.setText(noteEntity.getTitle());
-        creationDateTextView.setText(String.valueOf(noteEntity.getDate()));
+        creationDateTextView.setText(noteEntity.getStringDate());
         descriptionEditText.setText(noteEntity.getDescription());
         noteEditText.setText(noteEntity.getText());
     }

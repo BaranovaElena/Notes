@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,6 +16,14 @@ public class NoteEntity implements Parcelable {
     private final String description;
     private final long date;
     private final String text;
+
+    NoteEntity() {
+        id = count.incrementAndGet();
+        title = "";
+        description = "";
+        date = Calendar.getInstance().getTimeInMillis();
+        text = "";
+    }
 
     NoteEntity(int id, String title, String description, long date, String text) {
         this.id = id;
@@ -68,10 +77,6 @@ public class NoteEntity implements Parcelable {
 
     public String getTitle() {
         return title;
-    }
-
-    public long getDate() {
-        return date;
     }
 
     public String getStringDate() {

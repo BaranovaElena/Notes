@@ -7,30 +7,29 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view"
-            style="@style/bottom_nav_view_style"
-            tools:ignore="MissingConstraints" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment_activity_main"
             style="@style/fragment_container_view"
             tools:ignore="MissingConstraints" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            style="@style/bottom_nav_view_style"
+            tools:ignore="MissingConstraints" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/layout_one_note"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-
-    </FrameLayout>
+        android:layout_weight="1" />
 
 </LinearLayout>

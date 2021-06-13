@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
                     fragment = new NotesFragment();
                     tag = NOTES_FRAGMENT_TAG;
                 }
+                getSupportFragmentManager().popBackStack();
                 break;
             case R.id.navigation_add:
                 fragment = new OneNoteFragment();

@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- имя приложения -->
     <string name="app_name">Заметки</string>
 
+    <!-- окно создания/редактирования заметки -->
     <string name="title_hint">Заголовок</string>
     <string name="creation_date_hint">Дата создания</string>
+    <string name="category">Категория</string>
+    <string name="favorite">Избранное</string>
     <string name="description_hint">Описание</string>
     <string name="write_your_note_here_hint">Напишите здесь свою заметку</string>
 
-    <string name="create_new_note">Создать новую заметку</string>
+    <!-- кнопки -->
     <string name="save_note">Сохранить заметку</string>
 
+    <!-- подписи навигации -->
     <string name="bottom_nav_list">Список</string>
     <string name="bottom_nav_favorites">Избранные</string>
     <string name="bottom_nav_tasks">Задачи</string>
     <string name="bottom_nav_add">Создать</string>
 
+    <!-- верхнее меню -->
     <string name="theme">Тема</string>
+    <string name="categories">Категории</string>
 
+    <!-- меню категорий -->
     <string name="work">Работа</string>
     <string name="study">Учеба</string>
     <string name="home">Дом</string>
     <string name="no_category">Без категории</string>
     <string name="add_category">Добавить категорию</string>
-    <string name="favorite">Избранная</string>
 </resources>

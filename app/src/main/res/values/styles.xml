@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="linear_container">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:background">@color/background</item>
-    </style>
-
-    <style name="style_button_create_note">
+    <style name="style_button_save_note">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:backgroundTint">@color/create_button_background</item>
-        <item name="android:text">@string/create_new_note</item>
-    </style>
-    <style name="style_button_save_note" parent="style_button_create_note">
         <item name="android:text">@string/save_note</item>
     </style>
 

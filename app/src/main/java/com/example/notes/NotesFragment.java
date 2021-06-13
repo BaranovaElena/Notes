@@ -65,7 +65,7 @@ public class NotesFragment extends Fragment {
         adapter.setList(notesArray);
     }
 
-    public void saveEditResult(NoteEntity newNote) {
+    public boolean saveEditResult(NoteEntity newNote) {
         boolean isUpdated = false;
         for (int i = 0; i < notesArray.size(); i++) {
             //если старая заметка редактировалась, обновляем и переносим в конец списка
@@ -80,6 +80,7 @@ public class NotesFragment extends Fragment {
             notesArray.add(newNote);
         }
         adapter.setList(notesArray);
+        return isUpdated;
     }
 
     interface Controller {

@@ -1,5 +1,6 @@
 package com.example.notes;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -16,6 +17,8 @@ public class NoteEntity implements Parcelable {
     private final String description;
     private final long date;
     private final String text;
+    private final String category;
+    private boolean isFavorite;
 
     NoteEntity() {
         id = count.incrementAndGet();
@@ -23,22 +26,30 @@ public class NoteEntity implements Parcelable {
         description = "";
         date = Calendar.getInstance().getTimeInMillis();
         text = "";
+        category = "";
+        isFavorite = false;
     }
 
-    NoteEntity(int id, String title, String description, long date, String text) {
+    NoteEntity(int id, String title, String description, long date,
+               String text, String category, boolean isFavorite) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.date = date;
         this.text = text;
+        this.category = category;
+        this.isFavorite = isFavorite;
     }
 
-    NoteEntity(String title, String description, long date, String text) {
+    NoteEntity(String title, String description, long date,
+               String text, String category, boolean isFavorite) {
         this.id = count.incrementAndGet();
         this.title = title;
         this.description = description;
         this.date = date;
         this.text = text;
+        this.category = category;
+        this.isFavorite = isFavorite;
     }
 
     protected NoteEntity(Parcel in) {
@@ -47,6 +58,10 @@ public class NoteEntity implements Parcelable {
         description = in.readString();
         date = in.readLong();
         text = in.readString();
+        category = in.readString();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            isFavorite = in.readBoolean();
+        }
     }
 
     public static final Creator<NoteEntity> CREATOR = new Creator<NoteEntity>() {
@@ -73,6 +88,10 @@ public class NoteEntity implements Parcelable {
         dest.writeString(description);
         dest.writeLong(date);
         dest.writeString(text);
+        dest.writeString(category);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            dest.writeBoolean(isFavorite);
+        }
     }
 
     public String getTitle() {
@@ -94,5 +113,13 @@ public class NoteEntity implements Parcelable {
 
     public int getIdentifier() {
         return id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public boolean getIsFavorite() {
+        return isFavorite;
     }
 }

@@ -26,4 +26,6 @@
 
     <string name="favorites_fragment" translatable="false">FAVORITES FRAGMENT</string>
     <string name="tasks_fragment" translatable="false">TASKS FRAGMENT</string>
+    <string name="favorite">Favorite</string>
+    <string name="category">category</string>
 </resources>

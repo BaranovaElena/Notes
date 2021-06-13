@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ public class OneNoteFragment extends Fragment {
     private TextInputEditText descriptionEditText;
     private TextInputEditText noteEditText;
     private MaterialButton buttonSave;
+    private TextView categoryEditText;
+    private CheckBox favoriteCheck;
 
     public OneNoteFragment() {
         noteEntity = new NoteEntity();
@@ -62,6 +65,8 @@ public class OneNoteFragment extends Fragment {
         creationDateTextView = view.findViewById(R.id.creation_date_text_view);
         descriptionEditText = view.findViewById(R.id.description_edit_text);
         noteEditText = view.findViewById(R.id.note_edit_text);
+        categoryEditText = view.findViewById(R.id.category_edit_text);
+        favoriteCheck = view.findViewById(R.id.is_favorite_checkbox);
 
         buttonSave = view.findViewById(R.id.button_save);
         buttonSave.setOnClickListener(v -> saveAndExit());
@@ -95,7 +100,9 @@ public class OneNoteFragment extends Fragment {
                     (titleEditText.getText() == null ? "" : titleEditText.getText().toString()),
                     (descriptionEditText.getText() == null ? "" : descriptionEditText.getText().toString()),
                     currentDate,
-                    (noteEditText.getText() == null ? "" : noteEditText.getText().toString()));
+                    (noteEditText.getText() == null ? "" : noteEditText.getText().toString()),
+                    (categoryEditText.getText() == null ? "" : categoryEditText.getText().toString()),
+                    favoriteCheck.isChecked());
             controller.saveResult(newNote);
         }
     }
@@ -108,6 +115,8 @@ public class OneNoteFragment extends Fragment {
         creationDateTextView.setText(noteEntity.getStringDate());
         descriptionEditText.setText(noteEntity.getDescription());
         noteEditText.setText(noteEntity.getText());
+        categoryEditText.setText(noteEntity.getCategory());
+        favoriteCheck.setChecked(noteEntity.getIsFavorite());
     }
 
     public interface Controller {

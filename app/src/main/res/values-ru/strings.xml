@@ -22,4 +22,5 @@
     <string name="home">Дом</string>
     <string name="no_category">Без категории</string>
     <string name="add_category">Добавить категорию</string>
+    <string name="favorite">Избранная</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.notes;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,6 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
                 onItemClickListener.onItemClick(noteEntity);
             }
         });
-
         favoriteString = itemView.getResources().getString(R.string.favorite);
     }
 

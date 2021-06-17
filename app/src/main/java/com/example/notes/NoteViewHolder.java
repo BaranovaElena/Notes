@@ -3,6 +3,7 @@ package com.example.notes;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -40,5 +41,22 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
         categoryTextView.setText(noteEntity.getCategory());
         titleTextView.setText(noteEntity.getTitle());
         dateTextView.setText(noteEntity.getStringDate());
+
+        itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+            menu.setHeaderTitle(R.string.item_menu_title);
+            menu.add(R.string.edit).setOnMenuItemClickListener(item -> {
+                Toast.makeText(itemView.getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                return false;
+            });
+            menu.add(R.string.delete).setOnMenuItemClickListener(item -> {
+                Toast.makeText(itemView.getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                return false;
+            });
+        });
+
+        cardView.setOnLongClickListener(v -> {
+            itemView.showContextMenu();
+            return true;
+        });
     }
 }

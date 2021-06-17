@@ -30,4 +30,9 @@
     <string name="home">Дом</string>
     <string name="no_category">Без категории</string>
     <string name="add_category">Добавить категорию</string>
+
+    <!-- служебные строки -->
+    <string name="item_menu_title">Выберете действие</string>
+    <string name="edit">Изменить</string>
+    <string name="delete">Удалить</string>
 </resources>

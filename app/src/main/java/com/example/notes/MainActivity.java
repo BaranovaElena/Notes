@@ -3,6 +3,7 @@ package com.example.notes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.res.Configuration;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements NotesFragment.Controller, OneNoteFragment.Controller{
+public class MainActivity extends AppCompatActivity implements NotesFragment.Controller, OneNoteFragment.Controller {
     public final String NOTES_FRAGMENT_TAG = "NOTES_FRAGMENT_TAG";
     private BottomNavigationView bottomNavigationView;
     private boolean isLandscape;
@@ -43,31 +44,32 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
     }
 
     private boolean setBottomNavListener(MenuItem item) {
+        Fragment fragment = null;
+        String tag = null;
         switch (item.getItemId()) {
             case R.id.navigation_list:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment_activity_main, new NotesFragment(), NOTES_FRAGMENT_TAG)
-                        .commit();
-                return true;
+                fragment = new NotesFragment();
+                tag = NOTES_FRAGMENT_TAG;
+                break;
             case R.id.navigation_add:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment_activity_main, new OneNoteFragment())
-                        .commit();
-                return true;
+                fragment = new OneNoteFragment();
+                break;
             case R.id.navigation_tasks:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment_activity_main, new TasksFragment())
-                        .commit();
-                return true;
+                fragment = new TasksFragment();
+                break;
             case R.id.navigation_favorites:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment_activity_main, new FavoritesFragment())
-                        .commit();
-                return true;
+                fragment = new FavoritesFragment();
+                break;
+        }
+        if (fragment != null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (tag != null) {
+                transaction.replace(R.id.nav_host_fragment_activity_main, fragment, tag);
+            } else {
+                transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
+            }
+            transaction.commit();
+            return true;
         }
         return false;
     }
@@ -113,19 +115,19 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
     private boolean setCategoryMenuListener(MenuItem itemCategory) {
         switch (itemCategory.getItemId()) {
             case R.id.category_menu_no_category:
-                Toast.makeText(this,getString(R.string.no_category),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.no_category), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category_menu_work:
-                Toast.makeText(this,getString(R.string.work),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.work), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category_menu_study:
-                Toast.makeText(this,getString(R.string.study),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.study), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category_menu_home:
-                Toast.makeText(this,getString(R.string.home),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.home), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category_menu_add_category:
-                Toast.makeText(this,getString(R.string.add_category),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.add_category), Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;

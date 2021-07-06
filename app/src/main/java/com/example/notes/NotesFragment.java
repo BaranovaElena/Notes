@@ -89,7 +89,7 @@ public class NotesFragment extends Fragment {
         for (int i = 0; i < notesArray.size(); i++) {
             //если старая заметка редактировалась, обновляем и переносим в конец списка
             if (notesArray.get(i).getIdentifier() == newNote.getIdentifier()) {
-                layoutNotesList.removeViewAt(i); //+1 тк 1-й элемент - кнопка create_new_note
+                layoutNotesList.removeViewAt(i);
                 addNewButton(newNote);
                 notesArray.remove(i);
                 notesArray.add(newNote);

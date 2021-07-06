@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,10 @@ public class OneNoteFragment extends Fragment {
 
     private NoteEntity noteEntity = null;
 
-    private TextInputEditText title_edit_text;
-    private TextView creation_date_text_view;
-    private TextInputEditText description_edit_text;
-    private TextInputEditText note_edit_text;
+    private TextInputEditText titleEditText;
+    private TextView creationDateTextView;
+    private TextInputEditText descriptionEditText;
+    private TextInputEditText noteEditText;
     private MaterialButton buttonSave;
 
     public OneNoteFragment() {}
@@ -41,7 +42,10 @@ public class OneNoteFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getArguments() != null) {
-            noteEntity = getArguments().getParcelable(GET_NOTE_EXTRA_KEY);
+            NoteEntity args = getArguments().getParcelable(GET_NOTE_EXTRA_KEY);
+            if (args != null) {
+                noteEntity = args;
+            }
         }
     }
 
@@ -50,10 +54,10 @@ public class OneNoteFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_one_note, null);
 
-        title_edit_text = view.findViewById(R.id.title_edit_text);
-        creation_date_text_view = view.findViewById(R.id.creation_date_text_view);
-        description_edit_text = view.findViewById(R.id.description_edit_text);
-        note_edit_text = view.findViewById(R.id.note_edit_text);
+        titleEditText = view.findViewById(R.id.title_edit_text);
+        creationDateTextView = view.findViewById(R.id.creation_date_text_view);
+        descriptionEditText = view.findViewById(R.id.description_edit_text);
+        noteEditText = view.findViewById(R.id.note_edit_text);
 
         buttonSave = view.findViewById(R.id.button_save);
         buttonSave.setOnClickListener(v -> saveAndExit());
@@ -72,10 +76,10 @@ public class OneNoteFragment extends Fragment {
             //передаем заметку во фрагмент-список
             NoteEntity newNote = new NoteEntity(
                     noteEntity.getIdentifier(),
-                    (title_edit_text.getText() == null ? "" : title_edit_text.getText().toString()),
-                    (description_edit_text.getText() == null ? "" : description_edit_text.getText().toString()),
+                    (titleEditText.getText() == null ? "" : titleEditText.getText().toString()),
+                    (descriptionEditText.getText() == null ? "" : descriptionEditText.getText().toString()),
                     currentDate,
-                    (note_edit_text.getText() == null ? "" : note_edit_text.getText().toString()));
+                    (noteEditText.getText() == null ? "" : noteEditText.getText().toString()));
             controller.saveResult(newNote);
         }
         //закрываем текущий фрагмент с редактированием
@@ -89,10 +93,10 @@ public class OneNoteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        title_edit_text.setText(noteEntity.getTitle());
-        creation_date_text_view.setText(String.valueOf(noteEntity.getDate()));
-        description_edit_text.setText(noteEntity.getDescription());
-        note_edit_text.setText(noteEntity.getText());
+        titleEditText.setText(noteEntity.getTitle());
+        creationDateTextView.setText(String.valueOf(noteEntity.getDate()));
+        descriptionEditText.setText(noteEntity.getDescription());
+        noteEditText.setText(noteEntity.getText());
     }
 
     public interface Controller {

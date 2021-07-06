@@ -59,9 +59,7 @@ public class NoteEntity implements Parcelable {
         date = in.readLong();
         text = in.readString();
         category = in.readString();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            isFavorite = in.readBoolean();
-        }
+        isFavorite = in.readInt() > 0;
     }
 
     public static final Creator<NoteEntity> CREATOR = new Creator<NoteEntity>() {
@@ -89,9 +87,7 @@ public class NoteEntity implements Parcelable {
         dest.writeLong(date);
         dest.writeString(text);
         dest.writeString(category);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            dest.writeBoolean(isFavorite);
-        }
+        dest.writeInt(isFavorite ? 1 : 0);
     }
 
     public String getTitle() {

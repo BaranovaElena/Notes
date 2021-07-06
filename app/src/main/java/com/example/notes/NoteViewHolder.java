@@ -16,6 +16,8 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     private final CardView cardView;
     private NoteEntity noteEntity;
 
+    private final String favoriteString;
+
     public NoteViewHolder(@NonNull ViewGroup parent, NotesAdapter.OnItemClickListener onItemClickListener) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false));
         cardView = (CardView) itemView;
@@ -28,12 +30,13 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
                 onItemClickListener.onItemClick(noteEntity);
             }
         });
+
+        favoriteString = itemView.getResources().getString(R.string.favorite);
     }
 
     public void bind(NoteEntity noteEntity) {
         this.noteEntity = noteEntity;
-        favoriteTextView.setText(noteEntity.getIsFavorite() ?
-                itemView.getResources().getString(R.string.favorite) : "");
+        favoriteTextView.setText(noteEntity.getIsFavorite() ? favoriteString : "");
         categoryTextView.setText(noteEntity.getCategory());
         titleTextView.setText(noteEntity.getTitle());
         dateTextView.setText(noteEntity.getStringDate());

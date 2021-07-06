@@ -12,19 +12,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class NotesFragment extends Fragment {
-    private static final NotesRepo notesRepo;
+    private static NotesRepo notesRepo;
     private static RecyclerView recyclerView;
     private NotesAdapter adapter;
 
     //пока нет базы, будет статический блок инициализации
     //чтобы при повороте экрана не терять изменения в списке заметок
-    static {
-        notesRepo = new NotesRepo();
-    }
+//    static {
+//        notesRepo = new NotesRepoImplDummy();
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        notesRepo = new NotesRepoImplFirebase();
+        notesRepo.setListener(new NotesRepo.Notifier() {
+            @Override
+            public void updateRepo() {
+                adapter.setList(notesRepo.getNotes());
+            }
+        });
     }
 
     @Override
@@ -43,12 +50,12 @@ public class NotesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        adapter.setList(notesRepo.getNotesArray());
+        adapter.setList(notesRepo.getNotes());
     }
 
     public boolean saveEditResult(NoteEntity newNote) {
         boolean isExistingNoteUpdated = notesRepo.updateNote(newNote);
-        adapter.setList(notesRepo.getNotesArray());
+        adapter.setList(notesRepo.getNotes());
         return isExistingNoteUpdated;
     }
 

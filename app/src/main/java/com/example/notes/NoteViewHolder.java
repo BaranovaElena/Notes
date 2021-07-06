@@ -1,7 +1,6 @@
 package com.example.notes;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,15 +31,6 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
                 onItemClickListener.onItemClick(noteEntity);
             }
         });
-        favoriteString = itemView.getResources().getString(R.string.favorite);
-    }
-
-    public void bind(NoteEntity noteEntity) {
-        this.noteEntity = noteEntity;
-        favoriteTextView.setText(noteEntity.getIsFavorite() ? favoriteString : "");
-        categoryTextView.setText(noteEntity.getCategory());
-        titleTextView.setText(noteEntity.getTitle());
-        dateTextView.setText(noteEntity.getStringDate());
 
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menu.setHeaderTitle(R.string.item_menu_title);
@@ -58,5 +48,15 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
             itemView.showContextMenu();
             return true;
         });
+
+        favoriteString = itemView.getResources().getString(R.string.favorite);
+    }
+
+    public void bind(NoteEntity noteEntity) {
+        this.noteEntity = noteEntity;
+        favoriteTextView.setText(noteEntity.getIsFavorite() ? favoriteString : "");
+        categoryTextView.setText(noteEntity.getCategory());
+        titleTextView.setText(noteEntity.getTitle());
+        dateTextView.setText(noteEntity.getStringDate());
     }
 }

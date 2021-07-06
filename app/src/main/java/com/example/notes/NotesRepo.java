@@ -30,14 +30,19 @@ public class NotesRepo {
         notesArray.add(note);
     }
 
-    void updateNote(NoteEntity newNote) {
-        for (NoteEntity note : notesArray) {
-            if (note.getIdentifier() == newNote.getIdentifier()) {
-                notesArray.remove(note);
+    boolean updateNote(NoteEntity newNote) {
+        boolean isExistingNoteUpdated = false;
+        //если старая заметка редактировалась, обновляем и переносим в конец списка
+        //если новая заметка, только добавляем в конец списка
+        for (NoteEntity thisNote : notesArray) {
+            if (thisNote.getIdentifier() == newNote.getIdentifier()) {
+                notesArray.remove(thisNote);
+                isExistingNoteUpdated = true;
                 break;
             }
         }
         notesArray.add(newNote);
+        return isExistingNoteUpdated;
     }
 
     void deleteNote(NoteEntity note) {

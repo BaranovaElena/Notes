@@ -1,6 +1,5 @@
 package com.example.notes;
 
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -18,7 +17,7 @@ public class NoteEntity implements Parcelable {
     private final long date;
     private final String text;
     private final String category;
-    private boolean isFavorite;
+    private final boolean isFavorite;
 
     NoteEntity() {
         id = count.incrementAndGet();

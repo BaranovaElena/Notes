@@ -12,14 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class NotesFragment extends Fragment {
-    private static NotesRepo notesArray;
+    private static final NotesRepo notesRepo;
     private static RecyclerView recyclerView;
     private NotesAdapter adapter;
 
     //пока нет базы, будет статический блок инициализации
     //чтобы при повороте экрана не терять изменения в списке заметок
     static {
-        notesArray = new NotesRepo();
+        notesRepo = new NotesRepo();
     }
 
     @Override
@@ -43,21 +43,13 @@ public class NotesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        adapter.setList(notesArray.getNotesArray());
+        adapter.setList(notesRepo.getNotesArray());
     }
 
     public boolean saveEditResult(NoteEntity newNote) {
-        //если старая заметка редактировалась, обновляем и переносим в конец списка
-        if (notesArray.contains(newNote)) {
-            notesArray.updateNote(newNote);
-            adapter.setList(notesArray.getNotesArray());
-            return true;
-        } else {
-            //если новая заметка, добавляем
-            notesArray.addNote(newNote);
-            adapter.setList(notesArray.getNotesArray());
-            return false;
-        }
+        boolean isExistingNoteUpdated = notesRepo.updateNote(newNote);
+        adapter.setList(notesRepo.getNotesArray());
+        return isExistingNoteUpdated;
     }
 
     interface Controller {

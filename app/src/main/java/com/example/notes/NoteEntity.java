@@ -6,12 +6,9 @@ import android.os.Parcelable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class NoteEntity implements Parcelable {
-    private static final AtomicInteger count = new AtomicInteger(0);
-
-    private final int id;
+    private String id;
     private final String title;
     private final String description;
     private final long date;
@@ -20,7 +17,7 @@ public class NoteEntity implements Parcelable {
     private final boolean isFavorite;
 
     NoteEntity() {
-        id = count.incrementAndGet();
+        id = "";
         title = "";
         description = "";
         date = Calendar.getInstance().getTimeInMillis();
@@ -29,7 +26,7 @@ public class NoteEntity implements Parcelable {
         isFavorite = false;
     }
 
-    NoteEntity(int id, String title, String description, long date,
+    NoteEntity(String id, String title, String description, long date,
                String text, String category, boolean isFavorite) {
         this.id = id;
         this.title = title;
@@ -40,19 +37,8 @@ public class NoteEntity implements Parcelable {
         this.isFavorite = isFavorite;
     }
 
-    NoteEntity(String title, String description, long date,
-               String text, String category, boolean isFavorite) {
-        this.id = count.incrementAndGet();
-        this.title = title;
-        this.description = description;
-        this.date = date;
-        this.text = text;
-        this.category = category;
-        this.isFavorite = isFavorite;
-    }
-
     protected NoteEntity(Parcel in) {
-        id = in.readInt();
+        id = in.readString();
         title = in.readString();
         description = in.readString();
         date = in.readLong();
@@ -80,7 +66,7 @@ public class NoteEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeLong(date);
@@ -106,8 +92,11 @@ public class NoteEntity implements Parcelable {
         return text;
     }
 
-    public int getIdentifier() {
+    public String getId() {
         return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCategory() {

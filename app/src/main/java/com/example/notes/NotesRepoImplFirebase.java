@@ -9,17 +9,16 @@ import java.util.List;
 
 public class NotesRepoImplFirebase implements NotesRepo {
     private static final String NOTES_COLLECTION_NAME = "notes";
-    private final FirebaseFirestore db;
     private final CollectionReference collection;
     private ArrayList<NoteEntity> notesArray = new ArrayList<>();
 
     private Notifier notifier;
 
     NotesRepoImplFirebase() {
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         collection = db.collection(NOTES_COLLECTION_NAME);
         collection.get().addOnSuccessListener(queryDocumentSnapshots ->
-            updateNotesFromDB(queryDocumentSnapshots.getDocuments()));
+                updateNotesFromDB(queryDocumentSnapshots.getDocuments()));
         collection.addSnapshotListener((value, error) -> {
             if (value != null) {
                 updateNotesFromDB(value.getDocuments());
@@ -27,7 +26,7 @@ public class NotesRepoImplFirebase implements NotesRepo {
         });
     }
 
-    void updateNotesFromDB( List<DocumentSnapshot> docs) {
+    void updateNotesFromDB(List<DocumentSnapshot> docs) {
         notesArray = new ArrayList<>();
         for (DocumentSnapshot doc : docs) {
             notesArray.add(doc.toObject(NoteEntity.class));
@@ -37,8 +36,12 @@ public class NotesRepoImplFirebase implements NotesRepo {
 
     @Override
     public void addNote(NoteEntity note) {
-        notesArray.add(note);
-        collection.add(note);
+        collection.add(note).addOnSuccessListener(documentReference -> {
+            note.setId(documentReference.getId());
+            notesArray.add(note);
+            collection.document(documentReference.getId()).set(note);
+        });
+
     }
 
     @Override
@@ -47,8 +50,8 @@ public class NotesRepoImplFirebase implements NotesRepo {
         //если старая заметка редактировалась, обновляем и переносим в конец списка
         //если новая заметка, только добавляем в конец списка
         for (NoteEntity thisNote : notesArray) {
-            if (thisNote.getIdentifier() == newNote.getIdentifier()) {
-                notesArray.remove(thisNote);
+            if (thisNote.getId().equals(newNote.getId())) {
+                deleteNote(thisNote);
                 isExistingNoteUpdated = true;
                 break;
             }
@@ -59,7 +62,8 @@ public class NotesRepoImplFirebase implements NotesRepo {
 
     @Override
     public void deleteNote(NoteEntity note) {
-
+        collection.document(note.getId()).delete().addOnSuccessListener(unused ->
+                notesArray.remove(note));
     }
 
     @Override

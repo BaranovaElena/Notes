@@ -82,7 +82,7 @@ public class OneNoteFragment extends Fragment {
         if (controller != null) {
             //передаем заметку во фрагмент-список
             NoteEntity newNote = new NoteEntity(
-                    noteEntity.getIdentifier(),
+                    noteEntity.getId(),
                     (titleEditText.getText() == null ? "" : titleEditText.getText().toString()),
                     (descriptionEditText.getText() == null ? "" : descriptionEditText.getText().toString()),
                     currentDate,

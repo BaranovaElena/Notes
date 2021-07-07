@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.example.notes.repo.NoteEntity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements NotesFragment.Controller, OneNoteFragment.Controller {

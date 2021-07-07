@@ -11,6 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.notes.recycler.NotesAdapter;
+import com.example.notes.repo.NoteEntity;
+import com.example.notes.repo.NotesRepo;
+import com.example.notes.repo.NotesRepoImplFirebase;
+
 public class NotesFragment extends Fragment {
     private static NotesRepo notesRepo;
     private static RecyclerView recyclerView;
@@ -46,7 +51,7 @@ public class NotesFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NotesAdapter();
-        adapter.setOnItemClickListener(((Controller) requireActivity())::openNoteScreen);
+        adapter.setOnItemClickListener(note -> ((Controller) requireActivity()).openNoteScreen(note));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 

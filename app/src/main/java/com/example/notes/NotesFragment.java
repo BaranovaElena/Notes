@@ -46,6 +46,10 @@ public class NotesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NotesAdapter();
         adapter.setOnItemClickListener(note -> ((Controller) requireActivity()).openNoteScreen(note));
+        adapter.setOnItemDialogDeleteListener(note -> {
+            notesRepo.deleteNote(note);
+            adapter.setList(notesRepo.getNotes());
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 

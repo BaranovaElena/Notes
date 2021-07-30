@@ -12,26 +12,28 @@ public class NotesRepoImplFirebase implements NotesRepo {
     private final CollectionReference collection;
     private ArrayList<NoteEntity> notesArray = new ArrayList<>();
 
-    private Notifier notifier;
+    private final ArrayList<Notifier> notifierArrayList = new ArrayList<>();
 
     public NotesRepoImplFirebase() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         collection = db.collection(NOTES_COLLECTION_NAME);
         collection.get().addOnSuccessListener(queryDocumentSnapshots ->
-                updateNotesFromDB(queryDocumentSnapshots.getDocuments()));
+                updateNotesFromDb(queryDocumentSnapshots.getDocuments()));
         collection.addSnapshotListener((value, error) -> {
             if (value != null) {
-                updateNotesFromDB(value.getDocuments());
+                updateNotesFromDb(value.getDocuments());
             }
         });
     }
 
-    void updateNotesFromDB(List<DocumentSnapshot> docs) {
+    void updateNotesFromDb(List<DocumentSnapshot> docs) {
         notesArray = new ArrayList<>();
         for (DocumentSnapshot doc : docs) {
             notesArray.add(doc.toObject(NoteEntity.class));
         }
-        notifier.updateRepo();
+        for (Notifier notifier : notifierArrayList) {
+            notifier.onUpdateRepo();
+        }
     }
 
     @Override
@@ -73,6 +75,20 @@ public class NotesRepoImplFirebase implements NotesRepo {
 
     @Override
     public void setListener(Notifier notifier) {
-        this.notifier = notifier;
+        notifierArrayList.add(notifier);
+    }
+
+    @Override
+    public void deleteListener(Notifier notifier) {
+        try {
+            notifierArrayList.remove(notifier);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteListeners() {
+        notifierArrayList.clear();
     }
 }

@@ -9,8 +9,10 @@ public interface NotesRepo {
     ArrayList<NoteEntity> getNotes();
 
     void setListener(Notifier notifier);
+    void deleteListener(Notifier notifier);
+    void deleteListeners();
 
     public interface Notifier {
-        void updateRepo();
+        void onUpdateRepo();
     }
 }

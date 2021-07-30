@@ -21,19 +21,13 @@ public class NotesFragment extends Fragment {
     private static RecyclerView recyclerView;
     private NotesAdapter adapter;
 
-    //пока нет базы, будет статический блок инициализации
-    //чтобы при повороте экрана не терять изменения в списке заметок
-//    static {
-//        notesRepo = new NotesRepoImplDummy();
-//    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         notesRepo = new NotesRepoImplFirebase();
         notesRepo.setListener(new NotesRepo.Notifier() {
             @Override
-            public void updateRepo() {
+            public void onUpdateRepo() {
                 adapter.setList(notesRepo.getNotes());
             }
         });
@@ -66,5 +60,11 @@ public class NotesFragment extends Fragment {
 
     interface Controller {
         void openNoteScreen(NoteEntity note);
+    }
+
+    @Override
+    public void onDestroy() {
+        notesRepo.deleteListeners();
+        super.onDestroy();
     }
 }

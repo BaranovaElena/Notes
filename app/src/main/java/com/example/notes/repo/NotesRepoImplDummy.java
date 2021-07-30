@@ -33,6 +33,16 @@ public class NotesRepoImplDummy implements NotesRepo{
     }
 
     @Override
+    public void deleteListener(Notifier notifier) {
+
+    }
+
+    @Override
+    public void deleteListeners() {
+
+    }
+
+    @Override
     public void addNote(NoteEntity note) {
         notesArray.add(note);
     }

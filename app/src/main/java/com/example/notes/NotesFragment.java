@@ -1,5 +1,6 @@
 package com.example.notes;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.notes.recycler.NotesAdapter;
 import com.example.notes.repo.NoteEntity;
@@ -45,15 +47,36 @@ public class NotesFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NotesAdapter();
-        adapter.setOnItemClickListener(note -> ((Controller) requireActivity()).openNoteScreen(note));
-        adapter.setOnItemDialogDeleteListener(note -> {
-            notesRepo.deleteNote(note);
-            adapter.setList(notesRepo.getNotes());
-        });
+        adapter.setOnItemClickListener(this::createEditDialog);
+        adapter.setOnItemDeleteListener(this::createDeleteDialog);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
         adapter.setList(notesRepo.getNotes());
+    }
+
+    private void createDeleteDialog(NoteEntity note) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.dialog_delete_title)
+                .setMessage(R.string.dialog_delete_message)
+                .setPositiveButton(R.string.dialog_delete_btn_yes, (dialog, which) -> {
+                    notesRepo.deleteNote(note);
+                    adapter.setList(notesRepo.getNotes());
+                })
+                .setNegativeButton(R.string.dialog_delete_btn_no, (dialog, which) ->
+                        Toast.makeText(getContext(), R.string.dialog_delete_btn_no_toast, Toast.LENGTH_SHORT).show())
+                .show();
+    }
+
+    private void createEditDialog(NoteEntity note) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.dialog_edit_title)
+                .setMessage(R.string.dialog_edit_message)
+                .setPositiveButton(R.string.dialog_edit_btn_yes, (dialog, which) ->
+                        ((Controller) requireActivity()).openNoteScreen(note))
+                .setNegativeButton(R.string.dialog_edit_btn_no, (dialog, which) ->
+                        Toast.makeText(getContext(), R.string.dialog_edit_btn_no_toast, Toast.LENGTH_SHORT).show())
+                .show();
     }
 
     public boolean saveEditResult(NoteEntity newNote) {

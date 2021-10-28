@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.example.notes.repo.NoteEntity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements NotesFragment.Controller, OneNoteFragment.Controller {
@@ -46,13 +47,20 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
     private boolean setBottomNavListener(MenuItem item) {
         Fragment fragment = null;
         String tag = null;
+        boolean isAddToBackStack = false;
         switch (item.getItemId()) {
             case R.id.navigation_list:
-                fragment = new NotesFragment();
-                tag = NOTES_FRAGMENT_TAG;
+                //если добавляли новую заметку, не надо пересоздавать NotesFragment()
+                //потому что созданные заметки не сохраняются
+                if (getSupportFragmentManager().findFragmentByTag(NOTES_FRAGMENT_TAG) == null) {
+                    fragment = new NotesFragment();
+                    tag = NOTES_FRAGMENT_TAG;
+                }
+                getSupportFragmentManager().popBackStack();
                 break;
             case R.id.navigation_add:
                 fragment = new OneNoteFragment();
+                isAddToBackStack = true;
                 break;
             case R.id.navigation_tasks:
                 fragment = new TasksFragment();
@@ -65,8 +73,11 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             if (tag != null) {
                 transaction.replace(R.id.nav_host_fragment_activity_main, fragment, tag);
-            } else {
+            } else if (!isAddToBackStack) {
                 transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
+            } else {
+                transaction.add(R.id.nav_host_fragment_activity_main, fragment);
+                transaction.addToBackStack(null);
             }
             transaction.commit();
             return true;
@@ -135,12 +146,17 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
 
     @Override
     public void saveResult(NoteEntity newNote) {
+        boolean isNoteUpdated = false;
+        getSupportFragmentManager().popBackStack();
+
         NotesFragment notesFragment = (NotesFragment) getSupportFragmentManager()
                 .findFragmentByTag(NOTES_FRAGMENT_TAG);
         if (notesFragment != null) {
-            getSupportFragmentManager().popBackStack();
-            notesFragment.saveEditResult(newNote);
-        } else {
+            isNoteUpdated = notesFragment.saveEditResult(newNote);
+        }
+
+        //если было создание новой заметки, перескакиваем на другую вкладку навигации
+        if (!isNoteUpdated) {
             bottomNavigationView.setSelectedItemId(R.id.navigation_list);
         }
     }

@@ -3,7 +3,10 @@
     android:id="@+id/fragment_one_note_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/linear_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".OneNoteFragment">
 
     <com.google.android.material.textfield.TextInputEditText
@@ -14,6 +17,16 @@
         android:id="@+id/creation_date_text_view"
         style="@style/field_default"
         android:hint="@string/creation_date_hint"/>
+
+    <EditText
+        android:id="@+id/category_edit_text"
+        style="@style/field_default"
+        android:hint="@string/category" />
+
+    <CheckBox
+        android:id="@+id/is_favorite_checkbox"
+        style="@style/field_default"
+        android:text="@string/favorite" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/description_edit_text"

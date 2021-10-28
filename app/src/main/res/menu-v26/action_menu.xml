@@ -6,7 +6,7 @@
         android:id="@+id/action_menu_category"
         android:icon="@drawable/ic_category"
         app:showAsAction="ifRoom"
-        android:title="@string/theme" />
+        android:title="@string/categories" />
 
     <item
         android:id="@+id/action_menu_theme"

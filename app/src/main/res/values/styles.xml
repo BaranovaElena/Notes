@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="linear_container">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:background">@color/background</item>
-    </style>
 
-    <style name="style_button_create_note">
+    <style name="style_button_save_note">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:backgroundTint">@color/create_button_background</item>
-        <item name="android:text">@string/create_new_note</item>
-    </style>
-    <style name="style_button_save_note" parent="style_button_create_note">
         <item name="android:text">@string/save_note</item>
     </style>
 
@@ -22,11 +13,13 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/default_text_size</item>
     </style>
+
     <style name="field_title" parent="field_default">
         <item name="android:textSize">@dimen/title_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:hint">@string/title_hint</item>
     </style>
+
     <style name="field_text" parent="field_default">
         <item name="android:layout_weight">1</item>
         <item name="android:hint">@string/write_your_note_here_hint</item>
@@ -35,24 +28,31 @@
     <style name="bottom_nav_view_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">?android:attr/windowBackground</item>
+        <item name="backgroundTint">@color/background</item>
         <item name="itemIconTint">@color/nav_icon_color</item>
         <item name="itemTextColor">@color/nav_icon_color</item>
-        <item name="layout_constraintBottom_toBottomOf">parent</item>
-        <item name="layout_constraintLeft_toLeftOf">parent</item>
-        <item name="layout_constraintRight_toRightOf">parent</item>
         <item name="menu">@menu/bottom_nav_menu</item>
     </style>
+
     <style name="fragment_container_view">
         <item name="android:name">androidx.navigation.fragment.NavHostFragment</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
         <item name="defaultNavHost">true</item>
-        <item name="layout_constraintBottom_toTopOf">@id/nav_view</item>
-        <item name="layout_constraintLeft_toLeftOf">parent</item>
-        <item name="layout_constraintRight_toRightOf">parent</item>
-        <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="navGraph">@navigation/main_navigation</item>
+    </style>
+
+    <style name="card">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/default_card_margin</item>
+        <item name="android:layout_marginStart">@dimen/side_card_padding</item>
+        <item name="android:backgroundTint">@color/background</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="contentPadding">@dimen/default_card_padding</item>
+        <item name="strokeColor">@color/card_stroke</item>
+        <item name="strokeWidth">@dimen/button_stroke_width</item>
     </style>
 
 </resources>

@@ -1,13 +1,54 @@
 <resources>
+    <!-- имя приложения -->
     <string name="app_name">Notes</string>
 
+    <!-- окно создания/редактирования заметки -->
     <string name="title_hint">title</string>
     <string name="creation_date_hint">creation date</string>
+    <string name="category">category</string>
+    <string name="favorite">Favorite</string>
     <string name="description_hint">description</string>
     <string name="write_your_note_here_hint">write your note here</string>
 
-    <string name="create_new_note">Создать новую заметку</string>
-    <string name="save_note">Сохранить заметку</string>
+    <!-- кнопки -->
+    <string name="save_note">Save note</string>
 
-    <string name="date_format">"dd.MM.yyyy"</string>
+    <!-- подписи навигации -->
+    <string name="bottom_nav_list">List</string>
+    <string name="bottom_nav_favorites">Favorites</string>
+    <string name="bottom_nav_tasks">Tasks</string>
+    <string name="bottom_nav_add">Add</string>
+
+    <!-- верхнее меню -->
+    <string name="theme">Theme</string>
+    <string name="categories">Categories</string>
+
+    <!-- меню категорий -->
+    <string name="work">Work</string>
+    <string name="study">Study</string>
+    <string name="home">Home</string>
+    <string name="no_category">No category</string>
+    <string name="add_category">Add category</string>
+
+    <!-- фрагменты-заглушки -->
+    <string name="favorites_fragment" translatable="false">FAVORITES FRAGMENT</string>
+    <string name="tasks_fragment" translatable="false">TASKS FRAGMENT</string>
+
+    <!-- служебные строки -->
+    <string name="date_format" translatable="false">"dd.MM.yyyy"</string>
+    <string name="item_menu_title">Choose the action</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+
+    <!-- диалоговые окна -->
+    <string name="dialog_edit_title">Attention!</string>
+    <string name="dialog_edit_message">Open note edit window?</string>
+    <string name="dialog_edit_btn_yes">Open</string>
+    <string name="dialog_edit_btn_no">Cancel</string>
+    <string name="dialog_edit_btn_no_toast">Cancel editing a note</string>
+    <string name="dialog_delete_title">Attention!</string>
+    <string name="dialog_delete_message">The note will be deleted. Do you want to continue?</string>
+    <string name="dialog_delete_btn_yes">Yes</string>
+    <string name="dialog_delete_btn_no">No</string>
+    <string name="dialog_delete_btn_no_toast">Deletion aborted</string>
 </resources>

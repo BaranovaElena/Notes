@@ -6,12 +6,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.example.notes.repo.NoteEntity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -20,15 +21,19 @@ import java.util.Calendar;
 public class OneNoteFragment extends Fragment {
     public static final String GET_NOTE_EXTRA_KEY = "EXTRA_KEY";
 
-    private NoteEntity noteEntity = null;
+    private NoteEntity noteEntity;
 
     private TextInputEditText titleEditText;
     private TextView creationDateTextView;
     private TextInputEditText descriptionEditText;
     private TextInputEditText noteEditText;
     private MaterialButton buttonSave;
+    private TextView categoryEditText;
+    private CheckBox favoriteCheck;
 
-    public OneNoteFragment() {}
+    public OneNoteFragment() {
+        noteEntity = new NoteEntity();
+    }
 
     public static OneNoteFragment newInstance(NoteEntity note) {
         OneNoteFragment fragment = new OneNoteFragment();
@@ -58,9 +63,12 @@ public class OneNoteFragment extends Fragment {
         creationDateTextView = view.findViewById(R.id.creation_date_text_view);
         descriptionEditText = view.findViewById(R.id.description_edit_text);
         noteEditText = view.findViewById(R.id.note_edit_text);
+        categoryEditText = view.findViewById(R.id.category_edit_text);
+        favoriteCheck = view.findViewById(R.id.is_favorite_checkbox);
 
         buttonSave = view.findViewById(R.id.button_save);
         buttonSave.setOnClickListener(v -> saveAndExit());
+
         return view;
     }
 
@@ -75,18 +83,15 @@ public class OneNoteFragment extends Fragment {
         if (controller != null) {
             //передаем заметку во фрагмент-список
             NoteEntity newNote = new NoteEntity(
-                    noteEntity.getIdentifier(),
+                    noteEntity.getId(),
                     (titleEditText.getText() == null ? "" : titleEditText.getText().toString()),
                     (descriptionEditText.getText() == null ? "" : descriptionEditText.getText().toString()),
                     currentDate,
-                    (noteEditText.getText() == null ? "" : noteEditText.getText().toString()));
+                    (noteEditText.getText() == null ? "" : noteEditText.getText().toString()),
+                    (categoryEditText.getText() == null ? "" : categoryEditText.getText().toString()),
+                    favoriteCheck.isChecked());
             controller.saveResult(newNote);
         }
-        //закрываем текущий фрагмент с редактированием
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .remove(this)
-                .commit();
     }
 
     @Override
@@ -94,9 +99,11 @@ public class OneNoteFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         titleEditText.setText(noteEntity.getTitle());
-        creationDateTextView.setText(String.valueOf(noteEntity.getDate()));
+        creationDateTextView.setText(noteEntity.getStringDate());
         descriptionEditText.setText(noteEntity.getDescription());
         noteEditText.setText(noteEntity.getText());
+        categoryEditText.setText(noteEntity.getCategory());
+        favoriteCheck.setChecked(noteEntity.getIsFavorite());
     }
 
     public interface Controller {

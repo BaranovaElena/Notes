@@ -30,4 +30,21 @@
     <string name="home">Дом</string>
     <string name="no_category">Без категории</string>
     <string name="add_category">Добавить категорию</string>
+
+    <!-- служебные строки -->
+    <string name="item_menu_title">Выберете действие</string>
+    <string name="edit">Изменить</string>
+    <string name="delete">Удалить</string>
+
+    <!-- диалоговые окна -->
+    <string name="dialog_edit_title">Внимание!</string>
+    <string name="dialog_edit_message">Открыть окно редактирования заметки?</string>
+    <string name="dialog_edit_btn_yes">Открыть</string>
+    <string name="dialog_edit_btn_no">Отмена</string>
+    <string name="dialog_edit_btn_no_toast">Отмена редактирования заметки</string>
+    <string name="dialog_delete_title">Внимание!</string>
+    <string name="dialog_delete_message">Заметка будет удалена. Хотите продолжить?</string>
+    <string name="dialog_delete_btn_yes">Да</string>
+    <string name="dialog_delete_btn_no">Нет</string>
+    <string name="dialog_delete_btn_no_toast">Удаление прервано</string>
 </resources>

@@ -1,32 +1,38 @@
 package com.example.notes;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Html;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
-
-import java.util.ArrayList;
-import java.util.Calendar;
+import com.example.notes.recycler.NotesAdapter;
+import com.example.notes.repo.NoteEntity;
+import com.example.notes.repo.NotesRepo;
+import com.example.notes.repo.NotesRepoImplFirebase;
 
 public class NotesFragment extends Fragment {
-    private ArrayList<NoteEntity> notesArray;
-    private RecyclerView recyclerView;
+    private static NotesRepo notesRepo;
+    private static RecyclerView recyclerView;
     private NotesAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        notesRepo = new NotesRepoImplFirebase();
+        notesRepo.setListener(new NotesRepo.Notifier() {
+            @Override
+            public void onUpdateRepo() {
+                adapter.setList(notesRepo.getNotes());
+            }
+        });
     }
 
     @Override
@@ -41,49 +47,51 @@ public class NotesFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NotesAdapter();
-        adapter.setOnItemClickListener(((Controller) requireActivity())::openNoteScreen);
+        adapter.setOnItemClickListener(this::createEditDialog);
+        adapter.setOnItemDeleteListener(this::createDeleteDialog);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        notesArray = new ArrayList<>();
-        initNotesList();
+        adapter.setList(notesRepo.getNotes());
     }
 
-    private void initNotesList() {
-        long dateInMills = Calendar.getInstance().getTimeInMillis();
-        notesArray.add(new NoteEntity(
-                "Note1", "first note", dateInMills, "my first note", "work", true));
-        notesArray.add(new NoteEntity(
-                "Note2", "second note", dateInMills, "my second note", "work", false));
-        notesArray.add(new NoteEntity(
-                "Note3", "third note", dateInMills, "my third note", "study", false));
-        notesArray.add(new NoteEntity(
-                "Note4", "fourth note", dateInMills, "my fourth note", "study", true));
-        notesArray.add(new NoteEntity(
-                "Note5", "fifth note", dateInMills, "my fifth note", "no category", false));
+    private void createDeleteDialog(NoteEntity note) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.dialog_delete_title)
+                .setMessage(R.string.dialog_delete_message)
+                .setPositiveButton(R.string.dialog_delete_btn_yes, (dialog, which) -> {
+                    notesRepo.deleteNote(note);
+                    adapter.setList(notesRepo.getNotes());
+                })
+                .setNegativeButton(R.string.dialog_delete_btn_no, (dialog, which) ->
+                        Toast.makeText(getContext(), R.string.dialog_delete_btn_no_toast, Toast.LENGTH_SHORT).show())
+                .show();
+    }
 
-        adapter.setList(notesArray);
+    private void createEditDialog(NoteEntity note) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.dialog_edit_title)
+                .setMessage(R.string.dialog_edit_message)
+                .setPositiveButton(R.string.dialog_edit_btn_yes, (dialog, which) ->
+                        ((Controller) requireActivity()).openNoteScreen(note))
+                .setNegativeButton(R.string.dialog_edit_btn_no, (dialog, which) ->
+                        Toast.makeText(getContext(), R.string.dialog_edit_btn_no_toast, Toast.LENGTH_SHORT).show())
+                .show();
     }
 
     public boolean saveEditResult(NoteEntity newNote) {
-        boolean isUpdated = false;
-        for (int i = 0; i < notesArray.size(); i++) {
-            //если старая заметка редактировалась, обновляем и переносим в конец списка
-            if (notesArray.get(i).getIdentifier() == newNote.getIdentifier()) {
-                notesArray.remove(i);
-                notesArray.add(newNote);
-                isUpdated = true;
-            }
-        }
-        //если новая заметка, добавляем
-        if (!isUpdated) {
-            notesArray.add(newNote);
-        }
-        adapter.setList(notesArray);
-        return isUpdated;
+        boolean isExistingNoteUpdated = notesRepo.updateNote(newNote);
+        adapter.setList(notesRepo.getNotes());
+        return isExistingNoteUpdated;
     }
 
     interface Controller {
         void openNoteScreen(NoteEntity note);
+    }
+
+    @Override
+    public void onDestroy() {
+        notesRepo.deleteListeners();
+        super.onDestroy();
     }
 }

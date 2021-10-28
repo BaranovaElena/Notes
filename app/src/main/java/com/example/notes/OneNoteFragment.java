@@ -1,20 +1,18 @@
 package com.example.notes;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.notes.repo.NoteEntity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -85,7 +83,7 @@ public class OneNoteFragment extends Fragment {
         if (controller != null) {
             //передаем заметку во фрагмент-список
             NoteEntity newNote = new NoteEntity(
-                    noteEntity.getIdentifier(),
+                    noteEntity.getId(),
                     (titleEditText.getText() == null ? "" : titleEditText.getText().toString()),
                     (descriptionEditText.getText() == null ? "" : descriptionEditText.getText().toString()),
                     currentDate,

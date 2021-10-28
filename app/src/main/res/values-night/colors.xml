@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">@color/black</color>
+    <color name="card_stroke">#878787</color>
+    <color name="button_text">@color/white</color>
+    <color name="nav_icon_color">#F57F17</color>
+</resources>

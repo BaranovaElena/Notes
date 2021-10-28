@@ -53,7 +53,7 @@ public class NotesRepoImplDummy implements NotesRepo{
         //если старая заметка редактировалась, обновляем и переносим в конец списка
         //если новая заметка, только добавляем в конец списка
         for (NoteEntity thisNote : notesArray) {
-            if (thisNote.getId() == newNote.getId()) {
+            if (thisNote.getId().equals(newNote.getId())) {
                 notesArray.remove(thisNote);
                 isExistingNoteUpdated = true;
                 break;
@@ -70,7 +70,7 @@ public class NotesRepoImplDummy implements NotesRepo{
 
     boolean contains(NoteEntity note) {
         for (NoteEntity thisNote : notesArray) {
-            if (thisNote.getId() == note.getId()) {
+            if (thisNote.getId().equals(note.getId())) {
                 return true;
             }
         }

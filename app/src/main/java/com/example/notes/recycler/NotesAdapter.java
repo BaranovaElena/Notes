@@ -13,6 +13,7 @@ import java.util.List;
 public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     private List<NoteEntity> list = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
+    private OnItemDeleteListener onItemDeleteListener;
 
     public void setList(List<NoteEntity> list) {
         this.list = list;
@@ -22,15 +23,21 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     public interface OnItemClickListener {
         void onItemClick(NoteEntity note);
     }
+    public interface OnItemDeleteListener {
+        void onItemDelete(NoteEntity note);
+    }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+    public void setOnItemDeleteListener(OnItemDeleteListener onItemDeleteListener) {
+        this.onItemDeleteListener = onItemDeleteListener;
     }
 
     @NonNull
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new NoteViewHolder(parent, onItemClickListener);
+        return new NoteViewHolder(parent, onItemClickListener, onItemDeleteListener);
     }
 
     @Override

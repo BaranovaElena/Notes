@@ -3,7 +3,6 @@ package com.example.notes.recycler;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -17,18 +16,20 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     private final TextView categoryTextView;
     private final TextView titleTextView;
     private final TextView dateTextView;
-    private final CardView cardView;
     private NoteEntity noteEntity;
 
     private final String favoriteString;
 
-    public NoteViewHolder(@NonNull ViewGroup parent, NotesAdapter.OnItemClickListener onItemClickListener) {
+    public NoteViewHolder(@NonNull ViewGroup parent,
+                          NotesAdapter.OnItemClickListener onItemClickListener,
+                          NotesAdapter.OnItemDeleteListener onItemDeleteListener) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false));
-        cardView = (CardView) itemView;
+        CardView cardView = (CardView) itemView;
         favoriteTextView = itemView.findViewById(R.id.favorite_text_view);
         categoryTextView = itemView.findViewById(R.id.category_text_view);
         titleTextView = itemView.findViewById(R.id.title_text_view);
         dateTextView = itemView.findViewById(R.id.date_text_view);
+
         cardView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(noteEntity);
@@ -38,12 +39,11 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menu.setHeaderTitle(R.string.item_menu_title);
             menu.add(R.string.edit).setOnMenuItemClickListener(item -> {
-                Toast.makeText(itemView.getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-
+                onItemClickListener.onItemClick(noteEntity);
                 return false;
             });
             menu.add(R.string.delete).setOnMenuItemClickListener(item -> {
-                Toast.makeText(itemView.getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                onItemDeleteListener.onItemDelete(noteEntity);
                 return false;
             });
         });

@@ -12,7 +12,7 @@ public interface NotesRepo {
     void deleteListener(Notifier notifier);
     void deleteListeners();
 
-    public interface Notifier {
+    interface Notifier {
         void onUpdateRepo();
     }
 }

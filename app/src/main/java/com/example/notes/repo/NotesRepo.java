@@ -12,6 +12,8 @@ public interface NotesRepo {
     void deleteListener(Notifier notifier);
     void deleteListeners();
 
+    void moveNote(int oldPosition, int newPosition);
+
     interface Notifier {
         void onUpdateRepo();
     }

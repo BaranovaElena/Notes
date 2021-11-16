@@ -10,4 +10,6 @@
     <dimen name="default_card_margin">4dp</dimen>
     <dimen name="side_card_padding">2dp</dimen>
     <dimen name="card_corner_radius">10dp</dimen>
+    <dimen name="item_note_reorder_icon_width">40dp</dimen>
+    <dimen name="item_note_reorder_padding">8dp</dimen>
 </resources>

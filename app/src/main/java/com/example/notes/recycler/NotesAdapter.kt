@@ -24,6 +24,15 @@ class NotesAdapter : RecyclerView.Adapter<NoteViewHolder>() {
         notifyItemRemoved(index)
     }
 
+    fun changeItemPosition(oldPos: Int, newPos: Int) {
+        val note = list[oldPos]
+        list.add(newPos, note)
+        list.remove(note)
+        notifyItemMoved(oldPos, newPos)
+    }
+
+    fun getItemByPosition(position: Int) : NoteEntity = list[position]
+
     interface OnItemListener {
         fun onItemClick(note: NoteEntity?)
         fun onItemDelete(note: NoteEntity?)

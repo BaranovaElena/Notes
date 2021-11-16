@@ -91,4 +91,11 @@ public class NotesRepoImplFirebase implements NotesRepo {
     public void deleteListeners() {
         notifierArrayList.clear();
     }
+
+    @Override
+    public void moveNote(int oldPosition, int newPosition) {
+        NoteEntity note = notesArray.get(oldPosition);
+        notesArray.add(newPosition, note);
+        notesArray.remove(note);
+    }
 }

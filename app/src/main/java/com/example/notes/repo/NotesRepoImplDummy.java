@@ -29,18 +29,19 @@ public class NotesRepoImplDummy implements NotesRepo{
     }
 
     @Override
-    public void setListener(Notifier notifier) {
-
-    }
+    public void setListener(Notifier notifier) {}
 
     @Override
-    public void deleteListener(Notifier notifier) {
-
-    }
+    public void deleteListener(Notifier notifier) {}
 
     @Override
-    public void deleteListeners() {
+    public void deleteListeners() {}
 
+    @Override
+    public void moveNote(int oldPosition, int newPosition) {
+        NoteEntity note = notesArray.get(oldPosition);
+        notesArray.add(newPosition, note);
+        notesArray.remove(note);
     }
 
     @Override

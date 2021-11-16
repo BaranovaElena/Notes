@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +28,6 @@ public class NotesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //notesRepo = new NotesRepoImplFirebase();
         notesRepo = new NotesRepoImplDummy();
         notesRepo.setListener(() -> adapter.setList(notesRepo.getNotes()));
     }
@@ -58,6 +58,23 @@ public class NotesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                notesRepo.moveNote(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                adapter.changeItemPosition(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                createDeleteDialog(adapter.getItemByPosition(viewHolder.getAdapterPosition()));
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
         adapter.setList(notesRepo.getNotes());
     }
 
@@ -69,8 +86,10 @@ public class NotesFragment extends Fragment {
                     notesRepo.deleteNote(note);
                     adapter.removeItem(note);
                 })
-                .setNegativeButton(R.string.dialog_delete_btn_no, (dialog, which) ->
-                        Toast.makeText(getContext(), R.string.dialog_delete_btn_no_toast, Toast.LENGTH_SHORT).show())
+                .setNegativeButton(R.string.dialog_delete_btn_no, (dialog, which) -> {
+                        Toast.makeText(getContext(), R.string.dialog_delete_btn_no_toast, Toast.LENGTH_SHORT).show();
+                        adapter.setList(notesRepo.getNotes());
+                })
                 .show();
     }
 

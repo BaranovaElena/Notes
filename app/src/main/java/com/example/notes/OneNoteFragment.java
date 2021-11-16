@@ -90,7 +90,7 @@ public class OneNoteFragment extends Fragment {
                     (noteEditText.getText() == null ? "" : noteEditText.getText().toString()),
                     (categoryEditText.getText() == null ? "" : categoryEditText.getText().toString()),
                     favoriteCheck.isChecked());
-            controller.saveResult(newNote);
+            controller.saveResult(noteEntity, newNote);
         }
     }
 
@@ -107,6 +107,6 @@ public class OneNoteFragment extends Fragment {
     }
 
     public interface Controller {
-        void saveResult(NoteEntity note);
+        void saveResult(NoteEntity oldNote, NoteEntity newNote);
     }
 }

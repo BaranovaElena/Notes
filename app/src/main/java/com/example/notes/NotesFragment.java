@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +18,7 @@ import android.widget.Toast;
 import com.example.notes.recycler.NotesAdapter;
 import com.example.notes.repo.NoteEntity;
 import com.example.notes.repo.NotesRepo;
-import com.example.notes.repo.NotesRepoImplFirebase;
+import com.example.notes.repo.NotesRepoImplDummy;
 
 public class NotesFragment extends Fragment {
     private static NotesRepo notesRepo;
@@ -26,13 +28,8 @@ public class NotesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        notesRepo = new NotesRepoImplFirebase();
-        notesRepo.setListener(new NotesRepo.Notifier() {
-            @Override
-            public void onUpdateRepo() {
-                adapter.setList(notesRepo.getNotes());
-            }
-        });
+        notesRepo = new NotesRepoImplDummy();
+        notesRepo.setListener(() -> adapter.setList(notesRepo.getNotes()));
     }
 
     @Override
@@ -47,10 +44,36 @@ public class NotesFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NotesAdapter();
-        adapter.setOnItemClickListener(this::createEditDialog);
-        adapter.setOnItemDeleteListener(this::createDeleteDialog);
+        adapter.setOnItemListener(new NotesAdapter.OnItemListener() {
+            @Override
+            public void onItemClick(@Nullable NoteEntity note) {
+                createEditDialog(note);
+            }
+
+            @Override
+            public void onItemDelete(@Nullable NoteEntity note) {
+                createDeleteDialog(note);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                notesRepo.moveNote(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                adapter.changeItemPosition(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                createDeleteDialog(adapter.getItemByPosition(viewHolder.getAdapterPosition()));
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         adapter.setList(notesRepo.getNotes());
     }
@@ -61,10 +84,12 @@ public class NotesFragment extends Fragment {
                 .setMessage(R.string.dialog_delete_message)
                 .setPositiveButton(R.string.dialog_delete_btn_yes, (dialog, which) -> {
                     notesRepo.deleteNote(note);
-                    adapter.setList(notesRepo.getNotes());
+                    adapter.removeItem(note);
                 })
-                .setNegativeButton(R.string.dialog_delete_btn_no, (dialog, which) ->
-                        Toast.makeText(getContext(), R.string.dialog_delete_btn_no_toast, Toast.LENGTH_SHORT).show())
+                .setNegativeButton(R.string.dialog_delete_btn_no, (dialog, which) -> {
+                        Toast.makeText(getContext(), R.string.dialog_delete_btn_no_toast, Toast.LENGTH_SHORT).show();
+                        adapter.setList(notesRepo.getNotes());
+                })
                 .show();
     }
 
@@ -79,9 +104,12 @@ public class NotesFragment extends Fragment {
                 .show();
     }
 
-    public boolean saveEditResult(NoteEntity newNote) {
+    public boolean saveEditResult(NoteEntity oldNote, NoteEntity newNote) {
         boolean isExistingNoteUpdated = notesRepo.updateNote(newNote);
-        adapter.setList(notesRepo.getNotes());
+        if (isExistingNoteUpdated) {
+            adapter.removeItem(oldNote);
+        }
+        adapter.addItem(newNote);
         return isExistingNoteUpdated;
     }
 

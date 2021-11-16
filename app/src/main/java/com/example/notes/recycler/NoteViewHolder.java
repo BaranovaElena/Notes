@@ -21,8 +21,7 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     private final String favoriteString;
 
     public NoteViewHolder(@NonNull ViewGroup parent,
-                          NotesAdapter.OnItemClickListener onItemClickListener,
-                          NotesAdapter.OnItemDeleteListener onItemDeleteListener) {
+                          NotesAdapter.OnItemListener onItemListener) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false));
         CardView cardView = (CardView) itemView;
         favoriteTextView = itemView.findViewById(R.id.favorite_text_view);
@@ -31,19 +30,19 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
         dateTextView = itemView.findViewById(R.id.date_text_view);
 
         cardView.setOnClickListener(v -> {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(noteEntity);
+            if (onItemListener != null) {
+                onItemListener.onItemClick(noteEntity);
             }
         });
 
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menu.setHeaderTitle(R.string.item_menu_title);
             menu.add(R.string.edit).setOnMenuItemClickListener(item -> {
-                onItemClickListener.onItemClick(noteEntity);
+                onItemListener.onItemClick(noteEntity);
                 return false;
             });
             menu.add(R.string.delete).setOnMenuItemClickListener(item -> {
-                onItemDeleteListener.onItemDelete(noteEntity);
+                onItemListener.onItemDelete(noteEntity);
                 return false;
             });
         });

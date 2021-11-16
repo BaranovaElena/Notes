@@ -6,32 +6,35 @@ import android.view.ViewGroup
 
 class NotesAdapter : RecyclerView.Adapter<NoteViewHolder>() {
     private var list: MutableList<NoteEntity> = mutableListOf()
-    private var onItemClickListener: OnItemClickListener? = null
-    private var onItemDeleteListener: OnItemDeleteListener? = null
+    private var onItemListener: OnItemListener? = null
 
     fun setList(list: List<NoteEntity>) {
         this.list = list.toMutableList()
         notifyDataSetChanged()
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(note: NoteEntity?)
+    fun addItem(note: NoteEntity) {
+        list.add(note)
+        notifyItemInserted(itemCount-1)
     }
 
-    interface OnItemDeleteListener {
+    fun removeItem(note: NoteEntity) {
+        val index = list.indexOf(note)
+        list.remove(note)
+        notifyItemRemoved(index)
+    }
+
+    interface OnItemListener {
+        fun onItemClick(note: NoteEntity?)
         fun onItemDelete(note: NoteEntity?)
     }
 
-    fun setOnItemClickListener(onItemClickListener: OnItemClickListener?) {
-        this.onItemClickListener = onItemClickListener
-    }
-
-    fun setOnItemDeleteListener(onItemDeleteListener: OnItemDeleteListener?) {
-        this.onItemDeleteListener = onItemDeleteListener
+    fun setOnItemListener(onItemListener: OnItemListener?) {
+        this.onItemListener = onItemListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        NoteViewHolder(parent, onItemClickListener, onItemDeleteListener)
+        NoteViewHolder(parent, onItemListener)
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.bind(list[position])

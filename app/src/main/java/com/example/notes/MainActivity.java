@@ -145,14 +145,14 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.Con
     }
 
     @Override
-    public void saveResult(NoteEntity newNote) {
+    public void saveResult(NoteEntity oldNote, NoteEntity newNote) {
         boolean isNoteUpdated = false;
         getSupportFragmentManager().popBackStack();
 
         NotesFragment notesFragment = (NotesFragment) getSupportFragmentManager()
                 .findFragmentByTag(NOTES_FRAGMENT_TAG);
         if (notesFragment != null) {
-            isNoteUpdated = notesFragment.saveEditResult(newNote);
+            isNoteUpdated = notesFragment.saveEditResult(oldNote, newNote);
         }
 
         //если было создание новой заметки, перескакиваем на другую вкладку навигации

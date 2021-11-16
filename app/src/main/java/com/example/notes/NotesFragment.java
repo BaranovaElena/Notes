@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.notes.recycler.NotesAdapter;
 import com.example.notes.repo.NoteEntity;
 import com.example.notes.repo.NotesRepo;
+import com.example.notes.repo.NotesRepoImplDummy;
 import com.example.notes.repo.NotesRepoImplFirebase;
 
 public class NotesFragment extends Fragment {
@@ -26,7 +27,8 @@ public class NotesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        notesRepo = new NotesRepoImplFirebase();
+        //notesRepo = new NotesRepoImplFirebase();
+        notesRepo = new NotesRepoImplDummy();
         notesRepo.setListener(new NotesRepo.Notifier() {
             @Override
             public void onUpdateRepo() {

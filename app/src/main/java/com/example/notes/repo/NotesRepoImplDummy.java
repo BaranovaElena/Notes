@@ -2,11 +2,12 @@ package com.example.notes.repo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class NotesRepoImplDummy implements NotesRepo{
     private final ArrayList<NoteEntity> notesArray;
 
-    NotesRepoImplDummy() {
+    public NotesRepoImplDummy() {
         notesArray = new ArrayList<>();
         long dateInMills = Calendar.getInstance().getTimeInMillis();
 
@@ -59,21 +60,15 @@ public class NotesRepoImplDummy implements NotesRepo{
                 break;
             }
         }
-        notesArray.add(newNote);
+        if (!isExistingNoteUpdated) {
+            newNote.setId(UUID.randomUUID().toString());
+        }
+        addNote(newNote);
         return isExistingNoteUpdated;
     }
 
     @Override
     public void deleteNote(NoteEntity note) {
         notesArray.remove(note);
-    }
-
-    boolean contains(NoteEntity note) {
-        for (NoteEntity thisNote : notesArray) {
-            if (thisNote.getId().equals(note.getId())) {
-                return true;
-            }
-        }
-        return false;
     }
 }
